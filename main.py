@@ -22,7 +22,6 @@ def link():
     webbrowser.open("http://expeyes.in/")
     
 help_.add_command(label='About ExpEYES', command = link)
-
 def about():
     window = Toplevel(mainwindow)
     window.title('About')
@@ -31,7 +30,9 @@ def about():
     ttk.Label(window, text = 'This a GUI for ExpEyes made by Ramswaroop Soren for GCI-2014').pack()
     frame.config(height = 100, width = 200)
     frame.config(relief = RIDGE)
-    ttk.Button(frame, text = 'Close').pack()
+    def closeabout():
+        window.destroy()
+    ttk.Button(frame, text = 'Close',command=closeabout).pack()
     
 help_.add_command(label='About Access', command = about)
 panedwindow = ttk.Panedwindow(mainwindow, orient = HORIZONTAL)
@@ -77,7 +78,7 @@ startbutton.config(compound = CENTER)
 startbutton.pack()
 text = Text(description, width = 40, height = 14)
 text.pack()
-text.insert('1.0 + 2 lines', 'This box will contain some description about the experiment check some detailed imaged menu in treeview in left. Note: No experiments are added only links in "File and Help are functional')
+text.insert('1.0 + 2 lines', 'This box will contain some description about the experiment check some detailed images menu in treeview in left. Note: No experiments are added only links in "File and Help are functional')
 text.config(wrap = 'word')
 button = ttk.Button(connections, text = 'Get Picture', command = buttonClick)
 button.config(compound = CENTER)
