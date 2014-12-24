@@ -1,0 +1,88 @@
+from tkinter import *
+from tkinter import ttk
+import webbrowser
+
+mainwindow = Tk()
+logo = PhotoImage(file = 'logo.gif')
+mainwindow.geometry('640x480+50+100')
+mainwindow.resizable(False, False)
+mainwindow.title("Expeyes Easy Access")
+mainwindow.wm_iconbitmap('logo.ico')
+mainwindow.option_add('*tearOff',False)
+menubar = Menu(mainwindow)
+mainwindow.config(menu = menubar)
+file = Menu(menubar)
+help_= Menu(menubar)
+menubar.add_cascade(menu = file, label = "File")
+menubar.add_cascade(menu = help_, label = "Help")
+file.add_command(label = 'Exit/Close', command = lambda:mainwindow.destroy())
+file.entryconfig('Exit/Close', accelerator = 'Alt + F4')
+
+def link():
+    webbrowser.open("http://expeyes.in/")
+    
+help_.add_command(label='About ExpEYES', command = link)
+
+def about():
+    window = Toplevel(mainwindow)
+    window.title('About')
+    frame = ttk.Frame(window)
+    frame.pack()
+    ttk.Label(window, text = 'This a GUI for ExpEyes made by Ramswaroop Soren for GCI-2014').pack()
+    frame.config(height = 100, width = 200)
+    frame.config(relief = RIDGE)
+    ttk.Button(frame, text = 'Close').pack()
+    
+help_.add_command(label='About Access', command = about)
+panedwindow = ttk.Panedwindow(mainwindow, orient = HORIZONTAL)
+panedwindow.pack(fill = BOTH, expand = True)
+frame1 = ttk.Frame(panedwindow, width = 100, height = 300, relief = SUNKEN)
+frame2 = ttk.Frame(panedwindow, width = 400, height = 400, relief = SUNKEN)
+panedwindow.add(frame1, weight = 1)
+panedwindow.add(frame2, weight = 4)
+label=ttk.Label(frame2,image=logo)
+label.place(relx=0.5, rely=0.5, anchor=CENTER)
+treeview = ttk.Treeview(frame1)
+treeview.grid(row=0)
+treeview.rowconfigure(0, weight = 1)
+treeview.config(selectmode='browse')
+icon1=PhotoImage(file = 'resistance.gif').subsample(20,20)
+icon2=PhotoImage(file = 'current.gif').subsample(10,10)
+icon3=PhotoImage(file = 'voltage.gif').subsample(10,10)
+
+def menuclick(event):
+    item=treeview.selection()
+    
+treeview.bind('<<TreeviewSelect>>', menuclick)
+treeview.insert('', '0', 'menu', text = 'Experiments')
+treeview.insert('menu', '1', 'menu2', text = 'Electrical parameters')
+treeview.insert('menu2', '2', 'item1', text = 'Resistance',image = icon1)
+treeview.insert('menu2', '3', 'item2', text = 'Current',image = icon2)
+treeview.insert('menu2', '4', 'item3', text = 'Voltage',image = icon3)
+treeview.insert('menu', '5', 'menu3', text = 'Physical Phenomenon')
+treeview.insert('menu', '6', 'menu4', text = 'Circuit Analysis')
+treeview.insert('menu3', '7', 'item4', text = 'Blank_Experiment')
+treeview.insert('menu4', '8', 'item5', text = 'Blank_Experiment')
+treeview.item('menu',open = True)
+connections=ttk.LabelFrame(frame2, height = 200, width = 380, text="Connections")
+description=ttk.LabelFrame(frame2, height = 200, width = 380, text="Description/Code")
+
+def buttonClick():
+    connections.pack()
+    description.pack()
+    startbutton.forget()
+    
+startbutton = ttk.Button(frame2, text = 'Click On Me to get Started', command = buttonClick)
+startbutton.config(compound = CENTER)
+startbutton.pack()
+text = Text(description, width = 40, height = 14)
+text.pack()
+text.insert('1.0 + 2 lines', 'This box will contain some description about the experiment check some detailed imaged menu in treeview in left. Note: No experiments are added only links in "File and Help are functional')
+text.config(wrap = 'word')
+button = ttk.Button(connections, text = 'Get Picture', command = buttonClick)
+button.config(compound = CENTER)
+button.pack()
+text2= Text(connections, width = 40, height = 10)
+text2.pack()
+text2.insert('1.0 + 2 lines', 'The button will lead to open a window with image.This box will contain some precautions/components list')
+mainwindow.mainloop()
